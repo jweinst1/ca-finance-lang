@@ -1,0 +1,10 @@
+[package]
+name = "sapphire"
+version = "0.1.0"
+authors = ["Joshua Weinstein <jweinstein@splunk.com>"]
+edition = "2018"
+keywords = ["finance", "quant", "modeling"]
+categories = ["science", "simulation"]
+readme = "README.md"
+
+[dependencies]

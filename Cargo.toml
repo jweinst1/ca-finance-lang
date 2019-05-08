@@ -7,4 +7,10 @@ keywords = ["finance", "quant", "modeling"]
 categories = ["science", "simulation"]
 readme = "README.md"
 
+[workspace]
+members = [
+    "sapphire-cells"
+]
+
 [dependencies]
+sapphire-cells = { path = "./sapphire-cells" }

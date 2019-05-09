@@ -29,6 +29,41 @@ pub fn price_for_demand<T:Trade>(cell_1:&T, cell_2:&T) -> f32 {
 pub fn price_self_supply<T:Trade>(cell_1:&T, cell_2:&T) -> f32 {
 	(cell_1.demand() / cell_1.supply()) / cell_2.supply()
 }
+/// Determines if the `Trade` cell has more supply than demand.
+pub fn is_supply_major<T:Trade>(cell:&T) -> bool {
+	cell.supply() > cell.demand()
+}
+/// Determines if the `Trade` cell has more demand than supply.
+pub fn is_demand_major<T:Trade>(cell:&T) -> bool {
+	cell.supply() < cell.demand()
+}
+
+pub fn find_max_demand<T:Trade>(cells:&[T]) -> &T {
+    let mut max:&T = &cells[0];
+    for i in 1..cells.len() {
+        if cells[i].demand() > max.demand() {
+            max = &cells[i];
+        }
+    }
+    &max
+}
+/// The `Transact` trait provides an interface of mutable operations 
+/// to facilitate buying and selling items. This trait permits the adding 
+/// or subtracting of cash and item supply.
+/// ## Note
+/// The floating point number returned here represents the quantity 
+/// that is withdrawn or deposited. It is possible for an implementation 
+/// of this trait to not withdraw or deposit the `amount` being passed in 
+/// due to special crtieria.
+pub trait Transact {
+	fn withdraw_cash(&mut self, amount:f32) -> f32;
+
+	fn deposit_cash(&mut self, amount:f32) -> f32;
+
+	fn withdraw_supply(&mut self, amount:f32) -> f32;
+
+	fn deposit_supply(&mut self, amount:f32) -> f32;
+}
 
 #[cfg(test)]
 mod unit_tests {
@@ -59,4 +94,27 @@ mod unit_tests {
 		let b  = TestTrader {};
 		assert!((price_self_supply(&a, &b) == 2.0));
 	}
+
+	struct TestCustomer {
+		_cash:f32,
+		_demand:f32,
+		_supply:f32
+	}
+
+	impl Trade for TestCustomer  {
+		fn supply(&self) -> f32 { self._supply }
+		fn demand(&self) -> f32 { self._demand }
+		fn cash(&self) -> f32   { self._cash }
+	}
+
+	#[test]
+	fn find_max_demand_works() {
+		let lst = [TestCustomer{_cash:5.0, _demand:4.2, _supply:0.7},
+		          TestCustomer{_cash:5.0, _demand:2.2, _supply:0.7},
+		          TestCustomer{_cash:5.0, _demand:6.3, _supply:0.7}
+		          ];
+		let maxer = find_max_demand(&lst);
+		assert_eq!(maxer.demand(), 6.3);
+	}
+
 }

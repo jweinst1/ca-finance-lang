@@ -14,3 +14,7 @@ members = [
 
 [dependencies]
 sapphire-cells = { path = "./sapphire-cells" }
+
+[[bin]]
+name = "sapphire"
+path = "src/main.rs"

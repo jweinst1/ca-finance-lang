@@ -5,5 +5,6 @@ authors = ["Joshua Weinstein <jweinstein@splunk.com>"]
 edition = "2018"
 keywords = ["finance", "quant", "modeling"]
 categories = ["science", "simulation"]
+description = "A crate of financial cellular automata."
 
 [dependencies]

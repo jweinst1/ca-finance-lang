@@ -1,9 +1,11 @@
+//! This is a crate which contains the cell objects that power Sapphire
 
-/// This module contains cells which function as traders. 
-/// Traders are a type of cell which buy and sell in an item-based market. 
-/// As such, the mechanics these cells follow pertains to commodities and not 
-/// securities or other equity-based financial instruments.
-pub mod traders;
+
+/// This module contains cells which deal with single item markets. 
+/// These types of markets have a single item to which supply 
+/// and demand change. However, they can still diverge and evolve
+/// according to different modifiers and conditions.
+pub mod single_item;
 
 
 /*#[cfg(test)]
